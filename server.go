@@ -2,20 +2,20 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 )
 
 func main() {
 
-	http.HandleFunc("/", func(resp http.ResponseWriter, req *http.Request) {
-		fmt.Fprintln(resp, "Hello Server!")
+	http.HandleFunc("/orders", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Handling incoming orders")
 	})
 
-	const port string = ":3000" //ip and port used for local host
-	fmt.Println("Server Listening on port:", port)
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatalln("Error starting server: ", err)
-	}
+	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Handling users")
+	})
+
+	port := 3000
+	fmt.Println("Server is running on port:", port)
+	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 }
